@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Counter</string>
+    <string name="btn_plus">+</string>
+    <string name="btn_minus">-</string>
+    <string name="btn_reset">Reset</string>
+    <string name="counter_value">0</string>
+    <string name="counter_name">First counter</string>
+</resources>
