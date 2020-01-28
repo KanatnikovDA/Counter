@@ -2,47 +2,19 @@ package kanatnikov.counter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView mValueTv;
-    private  int mValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mValueTv = findViewById(R.id.main_counter);
-
-        findViewById(R.id.plus_btn).setOnClickListener(v -> {
-            mValue++;
-            updateValue();
-        });
-
-        findViewById(R.id.minus_btn).setOnClickListener(v -> {
-            mValue--;
-            updateValue();
-        });
-
-        findViewById(R.id.reset_btn).setOnClickListener(v -> {
-            int oldValue = mValue;
-            mValue = 0;
-            updateValue();
-            Snackbar.make(v, "Counter was reset", Snackbar.LENGTH_SHORT)
-                .setAction("Undo", ignored ->{
-                    mValue = oldValue;
-                    updateValue();
-                })
-                    .show();
-        });
+        setContentView(R.layout.a_main);
     }
 
-    private void updateValue() {
-        mValueTv.setText(String.valueOf(mValue));
+    public void openCounter(View view) {
+        startActivity(new Intent(this, CounterActivity.class));
     }
 }
