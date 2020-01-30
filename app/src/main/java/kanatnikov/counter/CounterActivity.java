@@ -29,7 +29,7 @@ public class CounterActivity extends AppCompatActivity {
 
         findViewById(R.id.plus_btn).setOnClickListener(v -> updateValue(getValue()+ 1));
 
-        findViewById(R.id.plus_btn).setOnClickListener(v -> updateValue(getValue()- 1));
+        findViewById(R.id.minus_btn).setOnClickListener(v -> updateValue(getValue()- 1));
 
         findViewById(R.id.reset_btn).setOnClickListener(v -> {
             int oldValue = getValue();

@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,12 +18,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.a_main);
 
-        List<Counter> data = new ArrayList<>();
-        data.add(new Counter("Counter1", 123));
-        data.add(new Counter("Counter2", 456));
-        data.add(new Counter("Counter3", 789));
+        CounterList list = new CounterList(findViewById(R.id.list), new CounterList.Listener() {
+            @Override
+            public void onPlus(Counter counter) {
+                Toast.makeText(MainActivity.this, "Plus on " + counter.name, Toast.LENGTH_SHORT).show();
 
-        CounterList list = new CounterList(findViewById(R.id.list));
-        list.setCounters(data);
+            }
+
+            @Override
+            public void onMinus(Counter counter) {
+                Toast.makeText(MainActivity.this, "Minus on " + counter.name, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onOpen(Counter counter) {
+                startActivity(new Intent(MainActivity.this, CounterActivity.class));
+            }
+        });
+        list.setCounters(createTestData());
+    }
+    private  List<Counter> createTestData() {
+        int count = 100;
+        Random random = new Random();
+        List<Counter> data = new ArrayList<>(count);
+        for (int i = 0; i < count; i++) {
+            data.add(new Counter("Counter " + (i + 1), random.nextInt(1000)));
+        }
+        return data;
     }
 }
