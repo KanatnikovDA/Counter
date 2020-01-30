@@ -1,5 +1,7 @@
 package kanatnikov.counter;
 
+import android.net.sip.SipAudioCall;
+import android.net.sip.SipSession;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,17 @@ import java.util.List;
 
 public class CounterList {
 
-    private final CounterAdapter mAdapter;
+    public interface  Listener {
+        void onPlus (Counter counter);
+        void onMinus (Counter counter);
+        void onOpen (Counter counter);
+    }
 
-    public CounterList(RecyclerView rv){
+    private final CounterAdapter mAdapter;
+    private final Listener mListener;
+
+    public CounterList(RecyclerView rv, Listener listener){
+        mListener = listener;
         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
         mAdapter = new CounterAdapter();
         rv.setAdapter(mAdapter);
@@ -26,7 +36,7 @@ public class CounterList {
 
     }
 
-    static class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Vh> {
+    class CounterAdapter extends RecyclerView.Adapter<CounterAdapter.Vh> {
 
         private List<Counter> mData;
 
@@ -61,6 +71,13 @@ public class CounterList {
                         .inflate(R.layout.i_counter, parent, false));
                 mName = itemView.findViewById(R.id.i_counter_name);
                 mValue = itemView.findViewById(R.id.i_counter_value);
+
+                itemView.findViewById(R.id.i_counter_minus).setOnClickListener(view -> mListener.onMinus(mData.get(getAdapterPosition())));
+                itemView.findViewById(R.id.i_counter_plus).setOnClickListener(view -> mListener.onPlus(mData.get(getAdapterPosition())));
+                itemView.setOnClickListener(view -> mListener.onOpen(mData.get(getAdapterPosition())));
+
+                //TODO OnItemCLick
+
             }
             void bind (Counter counter){
                 mName.setText(counter.name);
